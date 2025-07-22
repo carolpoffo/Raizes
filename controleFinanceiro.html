@@ -20,244 +20,167 @@
       }
     }
   </script>
-<style>
-  #main-content {
-    transition: margin-left 0.3s ease;
-    margin-left: 4rem; /* mesma largura da sidebar colapsada */
-  }
-
-  body.sidebar-expanded #main-content {
-    margin-left: 16rem; /* mesma largura da sidebar expandida */
-  }
-</style>
 
 </head>
-<body class="bg-gray-100 min-h-screen">
-  <!-- Sidebar -->
- <div id="main-content" class="flex-1 p-8">
 
+<body class="bg-gray-100 min-h-screen overflow-x-hidden">
+
+  <div class="flex min-h-screen bg-white">
+
+    <!-- Sidebar -->
     <div id="sidebar-container"></div>
     <!-- Main Content -->
-   <div class="flex-1 ml-16 p-8">
-    <!-- Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-800 mb-2">Gestão Financeira</h1>
-      <p class="text-gray-600">Gerencie suas finanças de forma eficiente</p>
+    <div class="flex-1 ml-16 p-8">
+      <!-- Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Gestão Financeira</h1>
+      </div>
+
+      <!-- Cards de Resumo -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Card Saldo -->
+        <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7 14l5-5 5 5z"/>
+                </svg>
+              </div>
+              <span class="ml-3 text-gray-600 font-medium">Saldo</span>
+            </div>
+          </div>
+          <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
+        </div>
+
+        <!-- Card Prejuízo -->
+        <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7 10l5 5 5-5z"/>
+                </svg>
+              </div>
+              <span class="ml-3 text-gray-600 font-medium">Despesas</span>
+            </div>
+          </div>
+          <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
+        </div>
+
+        <!-- Card Receita -->
+        <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <span class="ml-3 text-gray-600 font-medium">Receita</span>
+            </div>
+          </div>
+          <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
+        </div>
+
+        <!-- Card Fornecedores -->
+        <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                
+                  <img src="assets/aperto-de-mao.png" class="w-5" alt="aperto de mãos">
+                
+              </div>
+              <span class="ml-3 text-gray-600 font-medium">Fornecedores</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="text-2xl font-bold text-gray-800">12</div>
+            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">+ Fornecedor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conteúdo Principal -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Tabela de Transações -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-xl font-bold text-gray-800">Transações Recentes</h2>
+              <button class="bg-[#16A34A] hover:bg-[#31572C] text-white px-4 py-2 rounded-lg transition-colors">
+              + Novo Item
+              </button>
+
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-gray-200">
+                    <th class="text-left py-3 px-4 font-semibold text-gray-700">Categoria</th>
+                    <th class="text-left py-3 px-4 font-semibold text-gray-700">Descrição</th>
+                    <th class="text-right py-3 px-4 font-semibold text-gray-700">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-row">
+                    <td class="py-3 px-4">
+                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    </td>
+                    <td class="py-3 px-4 text-gray-600">Descrição</td>
+                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                  </tr>
+                  <tr class="table-row">
+                    <td class="py-3 px-4">
+                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    </td>
+                    <td class="py-3 px-4 text-gray-600">Descrição</td>
+                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                  </tr>
+                  <tr class="table-row">
+                    <td class="py-3 px-4">
+                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    </td>
+                    <td class="py-3 px-4 text-gray-600">Descrição</td>
+                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                  </tr>
+                  <tr class="table-row">
+                    <td class="py-3 px-4">
+                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    </td>
+                    <td class="py-3 px-4 text-gray-600">Descrição</td>
+                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                  </tr>
+                  <tr class="table-row">
+                    <td class="py-3 px-4">
+                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    </td>
+                    <td class="py-3 px-4 text-gray-600">Descrição</td>
+                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-6">Distribuição Financeira</h2>
+            <div class="flex justify-center">
+              <canvas id="financialChart" width="250" height="250"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Cards de Resumo -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <!-- Card Saldo -->
-      <div class="bg-white rounded-xl shadow-md p-6 card-hover">
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center">
-            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-              <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M7 14l5-5 5 5z"/>
-              </svg>
-            </div>
-            <span class="ml-3 text-gray-600 font-medium">Saldo</span>
-          </div>
-        </div>
-        <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
-      </div>
-
-      <!-- Card Prejuízo -->
-      <div class="bg-white rounded-xl shadow-md p-6 card-hover">
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center">
-            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-              <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M7 10l5 5 5-5z"/>
-              </svg>
-            </div>
-            <span class="ml-3 text-gray-600 font-medium">Despesas</span>
-          </div>
-        </div>
-        <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
-      </div>
-
-      <!-- Card Receita -->
-      <div class="bg-white rounded-xl shadow-md p-6 card-hover">
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center">
-            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-            </div>
-            <span class="ml-3 text-gray-600 font-medium">Receita</span>
-          </div>
-        </div>
-        <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
-      </div>
-
-      <!-- Card Fornecedores -->
-      <div class="bg-white rounded-xl shadow-md p-6 card-hover">
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center">
-            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-              
-                <img src="assets/aperto-de-mao.png" class="w-5" alt="aperto de mãos">
-              
-            </div>
-            <span class="ml-3 text-gray-600 font-medium">Fornecedores</span>
-          </div>
-        </div>
-        <div class="flex items-center justify-between">
-          <div class="text-2xl font-bold text-gray-800">12</div>
-          <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">+ Fornecedor</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Conteúdo Principal -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Tabela de Transações -->
-      <div class="lg:col-span-2">
-        <div class="bg-white rounded-xl shadow-md p-6">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold text-gray-800">Transações Recentes</h2>
-            <button class="bg-[#16A34A] hover:bg-[#31572C] text-white px-4 py-2 rounded-lg transition-colors">
-             + Novo Item
-            </button>
-
-          </div>
-          
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr class="border-b border-gray-200">
-                  <th class="text-left py-3 px-4 font-semibold text-gray-700">Categoria</th>
-                  <th class="text-left py-3 px-4 font-semibold text-gray-700">Descrição</th>
-                  <th class="text-right py-3 px-4 font-semibold text-gray-700">Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="table-row">
-                  <td class="py-3 px-4">
-                    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
-                  </td>
-                  <td class="py-3 px-4 text-gray-600">Descrição</td>
-                  <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="py-3 px-4">
-                    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
-                  </td>
-                  <td class="py-3 px-4 text-gray-600">Descrição</td>
-                  <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="py-3 px-4">
-                    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
-                  </td>
-                  <td class="py-3 px-4 text-gray-600">Descrição</td>
-                  <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="py-3 px-4">
-                    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
-                  </td>
-                  <td class="py-3 px-4 text-gray-600">Descrição</td>
-                  <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="py-3 px-4">
-                    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
-                  </td>
-                  <td class="py-3 px-4 text-gray-600">Descrição</td>
-                  <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Gráfico -->
-      <div class="lg:col-span-1">
-        <div class="bg-white rounded-xl shadow-md p-6">
-          <h2 class="text-xl font-bold text-gray-800 mb-6">Distribuição Financeira</h2>
-          <div class="flex justify-center">
-            <canvas id="financialChart" width="250" height="250"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
- <script>
-    fetch('sidebar.html')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Sidebar não encontrada');
-    }
-    return response.text();
-  })
-  .then(data => {
-    document.getElementById('sidebar-container').innerHTML = data;
-
-    // Depois que a sidebar foi carregada, adiciona o listener do botão logout
-    const logoutBtn = document.getElementById('logout');
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', function () {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = "login.html";
-      });
-    }
-
-    // Adiciona classe no body ao passar o mouse na sidebar
-    const sidebarEl = document.getElementById('sidebar'); // atenção: é "El", não "E1"
-    if (sidebarEl) {
-      sidebarEl.addEventListener('mouseenter', () => {
-        document.body.classList.add('sidebar-expanded');
-      });
-      sidebarEl.addEventListener('mouseleave', () => {
-        document.body.classList.remove('sidebar-expanded');
-      });
-    }
-
-    // Destaca o botão da navbar
-    const navbar = document.querySelector('#home');
-    if (navbar) {
-      navbar.classList.add('bg-white/20');
-    }
-  })
-  .catch(error => {
-    console.error('Erro ao carregar sidebar:', error);
-    document.getElementById('sidebar-container').innerHTML = '<div class="w-16 bg-gray-800 min-h-screen"></div>';
-  });
-  </script>
-
-  <!-- API ou outros scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const ctx = document.getElementById('financialChart');
-      if (ctx && window.Chart) {
-        new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: ['Receita', 'Despesas', 'Saldo'],
-            datasets: [{
-              data: [1200, 800, 1589.65],
-              backgroundColor: ['#2563EB', '#DC2626', '#16A34A'],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            plugins: {
-              legend: {
-                display: true,
-                position: 'bottom',
-              }
-            }
-          }
-        });
-      }
-    });
-  </script>
+  <script src="scripts/sidebar.js"></script>
+  <script src="scripts/api.js"></script>
 </body>
 </html>
