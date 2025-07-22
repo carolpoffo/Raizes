@@ -1,0 +1,22 @@
+#  Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+
+#  Build
+bin/
+obj/
+
+#  Pacotes NuGet (se for o caso)
+*.nupkg
+*.snupkg
+packages/
+
+#  Certificados locais
+localhostCert.crt
+
+#  Outros arquivos desnecessários
+*.log
+*.tmp
+*.DS_Store

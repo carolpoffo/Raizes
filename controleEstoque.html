@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Materiais</title>
+  <link rel="icon" type="image/png" href="assets/logo_perfil.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'green-dark': '#31572C',
+            'green-medium': '#4D841D',
+            'green-light': '#A5C96F'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Estilo para o conteúdo principal se ajustar quando sidebar expandir */
+    #main-content {
+      margin-left: 4rem;
+      transition: margin-left 0.3s ease;
+    }
+        
+    /* Quando a sidebar estiver em hover, aumenta a margem do conteúdo */
+    .sidebar:hover ~ #main-content {
+      margin-left: 16rem;
+    }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        z-index: 50;
+        transform: translateX(-100%);
+        width: 16rem;
+        height: 100vh;
+      }
+      
+      .sidebar.mobile-open {
+        transform: translateX(0);
+      }
+      
+      #main-content {
+        margin-left: 0;
+      }
+      
+      .sidebar:hover ~ #main-content {
+        margin-left: 0;
+      }
+      
+      .mobile-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 40;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .mobile-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    /* Form styles */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #374151;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #d1d5db;
+      border-radius: 0.5rem;
+      transition: border-color 0.2s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #31572C;
+      box-shadow: 0 0 0 3px rgba(49, 87, 44, 0.1);
+    }
+
+    /* Tab styles */
+    .tab-button {
+      padding: 0.75rem 1.5rem;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    
+    .tab-button.active {
+      border-bottom-color: #31572C;
+      color: #31572C;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <!-- Mobile Overlay -->
+  <div id="mobile-overlay" class="mobile-overlay md:hidden"></div>
+  
+  <!-- Container para a sidebar -->
+  <div class="flex min-h-screen bg-white">
+    <!-- Sidebar será inserida aqui -->
+    <div id="sidebar-container" class="fixed h-screen"></div>
+            
+    <!-- Conteúdo principal -->
+    <div id="main-content" class="flex-1 p-4 md:p-6 overflow-y-auto">
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="md:hidden mb-4 p-2 bg-gray-800 text-white rounded-lg">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+      </button>
+
+      <!-- Header com clima -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Gestão de Materiais</h1>
+        <div class="bg-yellow-100 px-4 py-2 rounded-lg flex items-center space-x-2">
+          <img src="assets/sum.png" alt="Weather Icon" class="w-6 h-6" onerror="this.style.display='none'" />
+          <span id="clima" class="font-semibold text-sm md:text-base">Carregando clima</span>
+        </div>
+      </div>
+
+                  
+      <!-- Cards de métricas -->
+      <div class="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+        <!-- Total de Equipamentos -->
+        <div class="bg-white rounded-2xl p-4 md:p-6 shadow transition-shadow duration-300 hover:shadow-xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-gray-500 text-sm">Total Equipamentos</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xl md:text-2xl font-bold text-gray-800">47</div>
+            </div>
+          </div>
+        </div>
+                        
+        <!-- Valor Total Equipamentos -->
+        <div class="bg-white rounded-xl p-4 md:p-6 shadow transition-shadow duration-300 hover:shadow-xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-gray-500 text-sm">Valor Equipamentos</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7 14l5-5 5 5z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xl md:text-2xl font-bold text-gray-800">R$ 285.400</div>
+            </div>
+          </div>
+        </div>
+                        
+        <!-- Tipos de Insumos -->
+        <div class="bg-white rounded-xl p-4 md:p-6 shadow transition-shadow duration-300 hover:shadow-xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-gray-500 text-sm">Tipos de Insumos</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xl md:text-2xl font-bold text-gray-800">23</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Valor Total Estoque -->
+        <div class="bg-white rounded-xl p-4 md:p-6 shadow transition-shadow duration-300 hover:shadow-xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-gray-500 text-sm">Valor Estoque</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xl md:text-2xl font-bold text-gray-800">R$ 45.680</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs Navigation -->
+      <div class="bg-white rounded-xl shadow-sm mb-6 md:mb-8">
+        <div class="flex border-b overflow-x-auto">
+          <button class="tab-button active" data-tab="equipamentos">Equipamentos</button>
+          <button class="tab-button" data-tab="estoque">Estoque de Insumos</button>
+        </div>
+      </div>
+
+      <!-- Tab Content: Equipamentos -->
+      <div id="equipamentos-tab" class="tab-content">
+        <!-- Novo Equipamento -->
+        <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm mb-6 md:mb-8 border-2">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
+            <h2 class="text-lg font-semibold text-gray-500">Novo Equipamento</h2>
+            <button id="toggle-equipment-form" class="bg-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-medium transition-colors">
+              + Adicionar Equipamento
+            </button>
+          </div>
+          
+          <!-- Formulário de Novo Equipamento -->
+          <div id="equipment-form" class="hidden mt-6 border-t pt-6">
+            <form id="form-equipment" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              <div class="form-group">
+                <label class="form-label">Nome do Equipamento</label>
+                <input type="text" class="form-input" name="nome" placeholder="Ex: Trator John Deere" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Tipo</label>
+                <select class="form-input" name="tipo" required>
+                  <option value="">Selecione o tipo</option>
+                  <option value="Trator">Trator</option>
+                  <option value="Implemento">Implemento</option>
+                  <option value="Ferramenta">Ferramenta</option>
+                  <option value="Máquina">Máquina</option>
+                  <option value="Veículo">Veículo</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Preço Unitário</label>
+                <input type="number" step="0.01" class="form-input" name="precoUnitario" placeholder="Ex: 85000.00" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Fornecedor</label>
+                <select class="form-input" name="fornecedorId" required>
+                  <option value="">Selecione o fornecedor</option>
+                  <option value="1">Agro Máquinas Ltda</option>
+                  <option value="2">Implementos Sul</option>
+                  <option value="3">Ferramentas & Cia</option>
+                  <option value="4">TecnoAgro</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Data da Compra</label>
+                <input type="date" class="form-input" name="dataCompra" required>
+              </div>
+              
+              <div class="form-group md:col-span-2 lg:col-span-3">
+                <label class="form-label">Descrição</label>
+                <textarea class="form-input" name="descricao" rows="3" placeholder="Descrição detalhada do equipamento..."></textarea>
+              </div>
+              
+              <div class="md:col-span-2 lg:col-span-3 flex flex-col sm:flex-row gap-4 pt-4">
+                <button type="submit" class="bg-green-dark text-white px-6 py-2 rounded-lg font-medium hover:bg-green-medium transition-colors">
+                  Salvar Equipamento
+                </button>
+                <button type="button" id="cancel-equipment-form" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Lista de Equipamentos -->
+        <div class="mb-6 md:mb-8">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 px-2 gap-4">
+            <h2 class="text-lg font-semibold text-gray-500">Equipamentos Cadastrados</h2>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <select class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                <option>Todos os tipos</option>
+                <option>Trator</option>
+                <option>Implemento</option>
+                <option>Ferramenta</option>
+                <option>Máquina</option>
+              </select>
+              <input type="text" placeholder="Buscar equipamento..." class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+            <!-- Exemplo de equipamento -->
+            <div class="bg-white rounded-xl p-4 md:p-6 shadow transition-shadow duration-300 hover:shadow-xl border-l-4 border-blue-500">
+              <div class="flex items-center justify-between mb-3">
+                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Trator</span>
+                <button class="text-gray-400 hover:text-gray-600">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                  </svg>
+                </button>
+              </div>
+              <h3 class="font-semibold text-gray-800 mb-2">Trator John Deere 5075E</h3>
+              <div class="space-y-2 text-sm text-gray-600">
+                <div class="flex justify-between">
+                  <span>Fornecedor:</span>
+                  <span class="font-medium">Agro Máquinas</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Valor:</span>
+                  <span class="font-medium">R$ 85.000,00</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Compra:</span>
+                  <span class="font-medium">15/03/2024</span>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t">
+                <div class="flex gap-2">
+                  <button class="flex-1 bg-green-dark text-white px-3 py-2 rounded-lg text-sm hover:bg-green-medium transition-colors">
+                    Editar
+                  </button>
+                  <button class="flex-1 bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors">
+                    Detalhes
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exemplo de equipamento 2 -->
+            <div class="bg-white rounded-xl p-4 md:p-6 shadow transition-shadow duration-300 hover:shadow-xl border-l-4 border-green-500">
+              <div class="flex items-center justify-between mb-3">
+                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Implemento</span>
+                <button class="text-gray-400 hover:text-gray-600">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                  </svg>
+                </button>
+              </div>
+              <h3 class="font-semibold text-gray-800 mb-2">Arado de Disco 3 Discos</h3>
+              <div class="space-y-2 text-sm text-gray-600">
+                <div class="flex justify-between">
+                  <span>Fornecedor:</span>
+                  <span class="font-medium">Implementos Sul</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Valor:</span>
+                  <span class="font-medium">R$ 12.500,00</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Compra:</span>
+                  <span class="font-medium">20/02/2024</span>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t">
+                <div class="flex gap-2">
+                  <button class="flex-1 bg-green-dark text-white px-3 py-2 rounded-lg text-sm hover:bg-green-medium transition-colors">
+                    Editar
+                  </button>
+                  <button class="flex-1 bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors">
+                    Detalhes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content: Estoque de Insumos -->
+      <div id="estoque-tab" class="tab-content hidden">
+        <!-- Nova Movimentação de Estoque -->
+        <div class="bg-white rounded-xl p-4 md:p-6 shadow-sm mb-6 md:mb-8 border-2">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
+            <h2 class="text-lg font-semibold text-gray-500">Movimentação de Estoque</h2>
+            <button id="toggle-stock-form" class="bg-green-dark text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-medium transition-colors">
+              + Nova Movimentação
+            </button>
+          </div>
+          
+          <!-- Formulário de Movimentação -->
+          <div id="stock-form" class="hidden mt-6 border-t pt-6">
+            <form id="form-stock" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              <div class="form-group">
+                <label class="form-label">Propriedade</label>
+                <select class="form-input" name="propriedadeId" required>
+                  <option value="">Selecione a propriedade</option>
+                  <option value="1">Propriedade Norte</option>
+                  <option value="2">Propriedade Sul</option>
+                  <option value="3">Propriedade Central</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Insumo</label>
+                <select class="form-input" name="insumoId" required>
+                  <option value="">Selecione o insumo</option>
+                  <option value="1">Fertilizante NPK</option>
+                  <option value="2">Sementes de Milho</option>
+                  <option value="3">Defensivo Agrícola</option>
+                  <option value="4">Adubo Orgânico</option>
+                  <option value="5">Calcário</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Quantidade</label>
+                <input type="number" step="0.01" class="form-input" name="quantidade" placeholder="Ex: 100.5" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Preço Unitário</label>
+                <input type="number" step="0.01" class="form-input" name="precoUnitario" placeholder="Ex: 25.50" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Data da Movimentação</label>
+                <input type="date" class="form-input" name="dataMovimentacao" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Tipo de Movimentação</label>
+                <select class="form-input" name="tipoMovimentacao" required>
+                  <option value="">Selecione</option>
+                  <option value="entrada">Entrada</option>
+                  <option value="saida">Saída</option>
+                </select>
+              </div>
+              
+              <div class="md:col-span-2 lg:col-span-3 flex flex-col sm:flex-row gap-4 pt-4">
+                <button type="submit" class="bg-green-dark text-white px-6 py-2 rounded-lg font-medium hover:bg-green-medium transition-colors">
+                  Salvar Movimentação
+                </button>
+                <button type="button" id="cancel-stock-form" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Lista de Estoque -->
+        <div class="mb-6 md:mb-8">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 px-2 gap-4">
+            <h2 class="text-lg font-semibold text-gray-500">Estoque Atual</h2>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <select class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                <option>Todas as propriedades</option>
+                <option>Propriedade Norte</option>
+                <option>Propriedade Sul</option>
+                <option>Propriedade Central</option>
+              </select>
+              <input type="text" placeholder="Buscar insumo..." class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+            <!-- Exemplo de estoque -->
+            <div class="bg-white rounded-xl p-4 md:p-6 shadow transition-shadow duration-300 hover:shadow-xl border-l-4 border-green-500">
+              <div class="flex items-center justify-between mb-3">
+                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Disponível</span>
+                <button class="text-gray-400 hover:text-gray-600">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                  </svg>
+                </button>
+              </div>
+              <h3 class="font-semibold text-gray-800 mb-2">Fertilizante NPK 20-05-20</h3>
+              <div class="space-y-2 text-sm text-gray-600">
+                <div class="flex justify-between">
+                  <span>Propriedade:</span>
+                  <span class="font-medium">Norte</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Quantidade:</span>
+                  <span class="font-medium">250 kg</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Preço Unit.:</span>
+                  <span class="font-medium">R$ 2,50/kg</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Última Mov.:</span>
+                  <span class="font-medium">10/04/2024</span>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t">
+                <div class="flex gap-2">
+                  <button class="flex-1 bg-green-dark text-white px-3 py-2 rounded-lg text-sm hover:bg-green-medium transition-colors">
+                    Movimentar
+                  </button>
+                  <button class="flex-1 bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors">
+                    Histórico
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exemplo de estoque 2 -->
+            <div class="bg-white rounded-xl p-4 md:p-6 shadow transition-shadow duration-300 hover:shadow-xl border-l-4 border-red-500">
+              <div class="flex items-center justify-between mb-3">
+                <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">Baixo</span>
+                <button class="text-gray-400 hover:text-gray-600">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                  </svg>
+                </button>
+              </div>
+              <h3 class="font-semibold text-gray-800 mb-2">Sementes de Milho Híbrido</h3>
+              <div class="space-y-2 text-sm text-gray-600">
+                <div class="flex justify-between">
+                  <span>Propriedade:</span>
+                  <span class="font-medium">Central</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Quantidade:</span>
+                  <span class="font-medium">15 kg</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Preço Unit.:</span>
+                  <span class="font-medium">R$ 45,00/kg</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Última Mov.:</span>
+                  <span class="font-medium">05/04/2024</span>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t">
+                <div class="flex gap-2">
+                  <button class="flex-1 bg-green-dark text-white px-3 py-2 rounded-lg text-sm hover:bg-green-medium transition-colors">
+                    Movimentar
+                  </button>
+                  <button class="flex-1 bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors">
+                    Histórico
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu functionality
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    let sidebar = null;
+    
+    function initMobileMenu() {
+      if (mobileMenuBtn && sidebar && mobileOverlay) {
+        mobileMenuBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('mobile-open');
+          mobileOverlay.classList.toggle('active');
+        });
+        
+        mobileOverlay.addEventListener('click', () => {
+          sidebar.classList.remove('mobile-open');
+          mobileOverlay.classList.remove('active');
+        });
+      }
+    }
+
+    // Tab functionality
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const tabName = button.getAttribute('data-tab');
+        
+        // Remove active class from all buttons and contents
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.add('hidden'));
+        
+        // Add active class to clicked button and show corresponding content
+        button.classList.add('active');
+        document.getElementById(tabName + '-tab').classList.remove('hidden');
+      });
+    });
+
+    // Equipment form functionality
+    const toggleEquipmentBtn = document.getElementById('toggle-equipment-form');
+    const equipmentForm = document.getElementById('equipment-form');
+    const cancelEquipmentBtn = document.getElementById('cancel-equipment-form');
+    
+    toggleEquipmentBtn.addEventListener('click', () => {
+      equipmentForm.classList.toggle('hidden');
+      toggleEquipmentBtn.textContent = equipmentForm.classList.contains('hidden') 
+        ? '+ Adicionar Equipamento' 
+        : 'Fechar Formulário';
+    });
+    
+    cancelEquipmentBtn.addEventListener('click', () => {
+      equipmentForm.classList.add('hidden');
+      toggleEquipmentBtn.textContent = '+ Adicionar Equipamento';
+      document.getElementById('form-equipment').reset();
+    });
+
+    // Stock form functionality
+    const toggleStockBtn = document.getElementById('toggle-stock-form');
+    const stockForm = document.getElementById('stock-form');
+    const cancelStockBtn = document.getElementById('cancel-stock-form');
+    
+    toggleStockBtn.addEventListener('click', () => {
+      stockForm.classList.toggle('hidden');
+      toggleStockBtn.textContent = stockForm.classList.contains('hidden') 
+        ? '+ Nova Movimentação' 
+        : 'Fechar Formulário';
+    });
+    
+    cancelStockBtn.addEventListener('click', () => {
+      stockForm.classList.add('hidden');
+      toggleStockBtn.textContent = '+ Nova Movimentação';
+      document.getElementById('form-stock').reset();
+    });
+    
+    // Equipment form submission
+    document.getElementById('form-equipment').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const equipmentData = Object.fromEntries(formData.entries());
+      
+      console.log('Novo equipamento:', equipmentData);
+      alert('Equipamento adicionado com sucesso!');
+      
+      e.target.reset();
+      equipmentForm.classList.add('hidden');
+      toggleEquipmentBtn.textContent = '+ Adicionar Equipamento';
+    });
+
+    // Stock form submission
+    document.getElementById('form-stock').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const stockData = Object.fromEntries(formData.entries());
+      
+      console.log('Nova movimentação:', stockData);
+      alert('Movimentação registrada com sucesso!');
+      
+      e.target.reset();
+      stockForm.classList.add('hidden');
+      toggleStockBtn.textContent = '+ Nova Movimentação';
+    });
+
+    // Load sidebar
+    fetch('sidebar.html')
+      .then(response => {
+        if (!response.ok) throw new Error('Sidebar não encontrada');
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+        
+        sidebar = document.getElementById('sidebar');
+        initMobileMenu();
+        
+        const logoutBtn = document.getElementById('logout');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', function () {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = "login.html";
+          });
+        }
+        
+        const sidebarEl = document.getElementById('sidebar');
+        if (sidebarEl) {
+          sidebarEl.addEventListener('mouseenter', () => {
+            document.body.classList.add('sidebar-expanded');
+          });
+          sidebarEl.addEventListener('mouseleave', () => {
+            document.body.classList.remove('sidebar-expanded');
+          });
+        }
+        
+        // Highlight current page
+        const navbar = document.querySelector('#materiais');
+        if (navbar) {
+          navbar.classList.add('bg-white/20');
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao carregar sidebar:', error);
+        document.getElementById('sidebar-container').innerHTML = '<div class="w-16 bg-gray-800 min-h-screen"></div>';
+      });
+
+    // Weather simulation
+    setTimeout(() => {
+      document.getElementById('clima').textContent = '25°C - Ensolarado';
+    }, 1000);
+  </script>
+  
+  <!-- API ou outros scripts -->
+  <script>
+    if (typeof fetch !== 'undefined') {
+      fetch('api.js')
+        .then(response => {
+          if (response.ok) {
+            return response.text();
+          }
+          throw new Error('API script não encontrado');
+        })
+        .then(script => {
+          const scriptElement = document.createElement('script');
+          scriptElement.textContent = script;
+          document.head.appendChild(scriptElement);
+        })
+        .catch(error => {
+          console.warn('API script não carregado:', error);
+        });
+    }
+  </script>
+</body>
+</html>
