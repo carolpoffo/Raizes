@@ -103,7 +103,7 @@ function renderizarTarefas() {
 function listarAtividades() {
   const token = localStorage.getItem('token');
 
-  fetch('https://localhost:7027/Task', {
+  fetch('phtts://localhost:7027/Task', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

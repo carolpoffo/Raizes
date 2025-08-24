@@ -10,5 +10,6 @@
         public int Mudas { get; set; }
         public string Descricao { get; set; }
         public int UnidadeMedidaId { get; set; }
+        public bool Ativa { get; set; } = true; 
     }
 }

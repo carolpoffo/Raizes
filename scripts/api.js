@@ -20,7 +20,7 @@ function apiHandShake() {
             })
     }
 }
-
+apiHandShake();
 async function apiGet(route) {
     const response = await fetch(`https://localhost:7027/${route}`, {
         method: 'GET',

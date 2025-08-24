@@ -28,7 +28,8 @@ namespace ApiRaizes.Repository
                                     AREAPLANTADA      AS {nameof(PlantingEntity.AreaPlantada)},
                                     MUDAS             AS {nameof(PlantingEntity.Mudas)},
                                     DESCRICAO         AS {nameof(PlantingEntity.Descricao)},
-                                    UNIDADEMEDIDAID   AS {nameof(PlantingEntity.UnidadeMedidaId)}
+                                    UNIDADEMEDIDAID   AS {nameof(PlantingEntity.UnidadeMedidaId)},
+                                    ATIVA             AS {nameof(PlantingEntity.Ativa)}
                                FROM PLANTIO
                 ";
                 IEnumerable<PlantingEntity> plantingList = await con.QueryAsync<PlantingEntity>(sql);
@@ -38,8 +39,8 @@ namespace ApiRaizes.Repository
         public async Task Insert(PlantingInsertDTO planting)
         {
             string sql = @$"
-                 INSERT INTO PLANTIO (ESPECIEID, PROPRIEDADEID, DATAINICIO, DATAFIM, AREAPLANTADA, MUDAS, DESCRICAO, UNIDADEMEDIDAID)
-                      VALUES (@EspecieId, @PropriedadeId, @DataInicio, @DataFim, @AreaPlantada, @Mudas, @Descricao, @UnidadeMedidaId)                                     
+                 INSERT INTO PLANTIO (ESPECIEID, PROPRIEDADEID, DATAINICIO, DATAFIM, AREAPLANTADA, MUDAS, DESCRICAO, UNIDADEMEDIDAID,ATIVA)
+                      VALUES (@EspecieId, @PropriedadeId, @DataInicio, @DataFim, @AreaPlantada, @Mudas, @Descricao, @UnidadeMedidaId,@Ativa)                                     
             ";
             await _connection.Execute(sql, planting);
         }
@@ -61,7 +62,8 @@ namespace ApiRaizes.Repository
                                     AREAPLANTADA      AS {nameof(PlantingEntity.AreaPlantada)},
                                     MUDAS             AS {nameof(PlantingEntity.Mudas)},
                                     DESCRICAO         AS {nameof(PlantingEntity.Descricao)},
-                                    UNIDADEMEDIDAID   AS {nameof(PlantingEntity.UnidadeMedidaId)}
+                                    UNIDADEMEDIDAID   AS {nameof(PlantingEntity.UnidadeMedidaId)},
+                                    ATIVA             AS {nameof(PlantingEntity.Ativa)}
                                FROM PLANTIO
                                WHERE ID = @Id
                               
@@ -81,7 +83,8 @@ namespace ApiRaizes.Repository
                                      AREAPLANTADA      = @AreaPlantada,
                                      MUDAS             = @Mudas,
                                      DESCRICAO         = @Descricao,
-                                     UNIDADEMEDIDAID   = @UnidadeMedidaId
+                                     UNIDADEMEDIDAID   = @UnidadeMedidaId,
+                                     ATIVA             = @Ativa
                              WHERE   ID                = @Id
                           ";
             await _connection.Execute(sql, planting);
