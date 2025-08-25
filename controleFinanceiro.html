@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Controle Financeiro</title>
+  <title>Controle Financeiro - Raízes</title>
   <link rel="icon" type="image/png" href="assets/logo_perfil.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -23,142 +23,188 @@
 
 </head>
 
-<body class="bg-gray-100 min-h-screen overflow-x-hidden">
+<body class="gradient-bg min-h-screen overflow-x-hidden">
 
-  <div class="flex min-h-screen bg-white">
+  <div class="flex min-h-screen">
 
     <!-- Sidebar -->
     <div id="sidebar-container"></div>
-    <!-- Main Content -->
-    <div class="flex-1 ml-16 p-8">
-      <!-- Header -->
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Gestão Financeira</h1>
+    <!--modal para fornecedor-->
+    <div id="modalFornecedor" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div class="bg-white p-8 rounded-2xl w-full max-w-lg shadow-2xl transform transition-all duration-300">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Novo Fornecedor</h2>
+        <button onclick="abrirModalFornecedor()" class="text-gray-400 hover:text-gray-600 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-
-      <!-- Cards de Resumo -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Nome</label>
+          <input id="nomeFornecedor" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all" placeholder="Insira o nome do fornecedor" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">CNPJ</label>
+          <textarea id="cnpjFornecedor" class="w-full border border-gray-300 rounded-lg p-3 resize-none focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all" placeholder="Insira o CNPJ"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+          <textarea id="telefoneFornecedor" class="w-full border border-gray-300 rounded-lg p-3  resize-none focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all" placeholder="Insira o telefone"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <textarea id="emailFornecedor" class="w-full border border-gray-300 rounded-lg p-3 resize-none focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all" placeholder="Insira o email"></textarea>
+        </div>
+        <p id="mensagemFornecedor" class="text-center text-white bg-green-medium rounded-lg p-2 hidden"></p>
+      </div>
+      
+      <div class="flex justify-end space-x-3 mt-6">
+        <button onclick="fecharModal()" class="px-6 py-3 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium">Cancelar</button>
+        <button onclick="salvarFornecedor()" class="px-6 py-3 bg-gradient-to-r from-green-dark to-green-medium text-white rounded-lg hover:shadow-lg transform hover:scale-110 transition-all duration-300 font-medium">Cadastrar Fornecedor</button>
+      </div>
+    </div>
+  </div>
+    <!-- Main Content -->
+    <div class="flex-1 ml-16 p-4 sm:p-6 lg:p-8">
+      <!-- Header com botão -->
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="text-2xl lg:text-3xl font-bold text-gray-800">Gestão Financeira</h1>
+        </div>
+        
+      </div>
+      <!-- Enhanced cards with gradients and better responsive grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-10">
         <!-- Card Saldo -->
-        <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-green-100">
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
-              <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <div class="w-12 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center shadow-sm">
+                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M7 14l5-5 5 5z"/>
                 </svg>
               </div>
-              <span class="ml-3 text-gray-600 font-medium">Saldo</span>
+              <span class="ml-3 text-gray-600 font-medium">Saldo Do Mês</span>
             </div>
           </div>
-          <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
-        </div>
-
-        <!-- Card Prejuízo -->
-        <div class="bg-white rounded-xl shadow-md p-6 card-hover">
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center">
-              <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M7 10l5 5 5-5z"/>
-                </svg>
-              </div>
-              <span class="ml-3 text-gray-600 font-medium">Despesas</span>
-            </div>
-          </div>
-          <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
+          <div  id="receitaMes" class="text-2xl lg:text-3xl font-bold text-gray-800 mb-1">Carregando..</div>
         </div>
 
         <!-- Card Receita -->
-        <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+        <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-blue-100">
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
-              <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center shadow-sm">
+                <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
               </div>
-              <span class="ml-3 text-gray-600 font-medium">Receita</span>
+              <span class="ml-3 text-gray-600 font-medium">Receita Total da Propriedade</span>
             </div>
           </div>
-          <div class="text-2xl font-bold text-gray-800">R$ 1589,65</div>
+          <div id="receita" class="text-2xl lg:text-3xl font-bold text-gray-800 mb-1">R$ 24.009,95</div>
+
         </div>
 
         <!-- Card Fornecedores -->
-        <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+       <div class="bg-white rounded-2xl shadow-lg p-6 card-hover border border-blue-100">
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
-              <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                
-                  <img src="assets/aperto-de-mao.png" class="w-5" alt="aperto de mãos">
-                
+              <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center shadow-sm">
+                <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
               </div>
               <span class="ml-3 text-gray-600 font-medium">Fornecedores</span>
             </div>
           </div>
-          <div class="flex items-center justify-between">
-            <div class="text-2xl font-bold text-gray-800">12</div>
-            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">+ Fornecedor</span>
-          </div>
+          <div id="fornecedores" class="text-2xl lg:text-3xl font-bold text-gray-800 mb-1">0</div>
+          <button onclick="abrirModalFornecedor()" class="bg-gradient-to-r from-green-medium to-green-dark hover:from-green-dark hover:to-green-medium text-white px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
+            + Adicionar Fornecedor
+          </button>
         </div>
+
+
       </div>
 
-      <!-- Conteúdo Principal -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Enhanced main content with better responsive layout -->
+      <div class="grid grid-cols-1  gap-6 lg:gap-8">
         <!-- Tabela de Transações -->
-        <div class="lg:col-span-2">
-          <div class="bg-white rounded-xl shadow-md p-6">
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="text-xl font-bold text-gray-800">Transações Recentes</h2>
-              <button class="bg-[#16A34A] hover:bg-[#31572C] text-white px-4 py-2 rounded-lg transition-colors">
-              + Novo Item
+        <div class="xl:col-span-2">
+          <div class="bg-white rounded-2xl shadow-lg p-6 lg:p-8 border border-white/20">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+              <div>
+                <h2 class="text-xl lg:text-2xl font-bold text-gray-800">Transações Recentes</h2>
+                <p class="text-gray-600 text-sm mt-1">Últimas movimentações financeiras</p>
+              </div>
+              <button class="bg-gradient-to-r from-green-medium to-green-dark hover:from-green-dark hover:to-green-medium text-white px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
+                + Nova Transação
               </button>
-
             </div>
             
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto rounded-xl border border-gray-100">
               <table class="w-full">
-                <thead>
-                  <tr class="border-b border-gray-200">
-                    <th class="text-left py-3 px-4 font-semibold text-gray-700">Categoria</th>
-                    <th class="text-left py-3 px-4 font-semibold text-gray-700">Descrição</th>
-                    <th class="text-right py-3 px-4 font-semibold text-gray-700">Valor</th>
+                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                  <tr>
+                    <th class="text-left py-4 px-6 font-semibold text-gray-700">Categoria</th>
+                    <th class="text-left py-4 px-6 font-semibold text-gray-700">Descrição</th>
+                    <th class="text-right py-4 px-6 font-semibold text-gray-700">Valor</th>
+                    <th class="text-center py-4 px-6 font-semibold text-gray-700">Status</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-100">
                   <tr class="table-row">
-                    <td class="py-3 px-4">
-                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    <td class="py-4 px-6">
+                      <span class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium">Vendas</span>
                     </td>
-                    <td class="py-3 px-4 text-gray-600">Descrição</td>
-                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                    <td class="py-4 px-6 text-gray-600">Venda de produtos orgânicos</td>
+                    <td class="py-4 px-6 text-right text-green-600 font-bold">+ R$ 2.450,00</td>
+                    <td class="py-4 px-6 text-center">
+                      <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Concluído</span>
+                    </td>
                   </tr>
                   <tr class="table-row">
-                    <td class="py-3 px-4">
-                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    <td class="py-4 px-6">
+                      <span class="bg-gradient-to-r from-red-100 to-red-200 text-red-700 px-3 py-1.5 rounded-full text-sm font-medium">Insumos</span>
                     </td>
-                    <td class="py-3 px-4 text-gray-600">Descrição</td>
-                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                    <td class="py-4 px-6 text-gray-600">Compra de sementes</td>
+                    <td class="py-4 px-6 text-right text-red-600 font-bold">- R$ 850,00</td>
+                    <td class="py-4 px-6 text-center">
+                      <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs">Pendente</span>
+                    </td>
                   </tr>
                   <tr class="table-row">
-                    <td class="py-3 px-4">
-                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    <td class="py-4 px-6">
+                      <span class="bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-3 py-1.5 rounded-full text-sm font-medium">Equipamentos</span>
                     </td>
-                    <td class="py-3 px-4 text-gray-600">Descrição</td>
-                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                    <td class="py-4 px-6 text-gray-600">Manutenção de tratores</td>
+                    <td class="py-4 px-6 text-right text-red-600 font-bold">- R$ 1.200,00</td>
+                    <td class="py-4 px-6 text-center">
+                      <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Concluído</span>
+                    </td>
                   </tr>
                   <tr class="table-row">
-                    <td class="py-3 px-4">
-                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    <td class="py-4 px-6">
+                      <span class="bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 px-3 py-1.5 rounded-full text-sm font-medium">Serviços</span>
                     </td>
-                    <td class="py-3 px-4 text-gray-600">Descrição</td>
-                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                    <td class="py-4 px-6 text-gray-600">Consultoria agrícola</td>
+                    <td class="py-4 px-6 text-right text-red-600 font-bold">- R$ 500,00</td>
+                    <td class="py-4 px-6 text-center">
+                      <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs">Agendado</span>
+                    </td>
                   </tr>
                   <tr class="table-row">
-                    <td class="py-3 px-4">
-                      <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">Categoria</span>
+                    <td class="py-4 px-6">
+                      <span class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium">Vendas</span>
                     </td>
-                    <td class="py-3 px-4 text-gray-600">Descrição</td>
-                    <td class="py-3 px-4 text-right text-gray-800 font-medium">R$ XXXXXX</td>
+                    <td class="py-4 px-6 text-gray-600">Feira do produtor</td>
+                    <td class="py-4 px-6 text-right text-green-600 font-bold">+ R$ 3.200,00</td>
+                    <td class="py-4 px-6 text-center">
+                      <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Concluído</span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -166,15 +212,7 @@
           </div>
         </div>
 
-        <!-- Gráfico -->
-        <div class="lg:col-span-1">
-          <div class="bg-white rounded-xl shadow-md p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-6">Distribuição Financeira</h2>
-            <div class="flex justify-center">
-              <canvas id="financialChart" width="250" height="250"></canvas>
-            </div>
-          </div>
-        </div>
+       
       </div>
     </div>
 
@@ -182,5 +220,7 @@
 
   <script src="scripts/sidebar.js"></script>
   <script src="scripts/api.js"></script>
+  <script src="scripts/receita.js"></script>
+  <script src="scripts/fornecedor.js"></script>
 </body>
 </html>
