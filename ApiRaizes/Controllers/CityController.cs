@@ -1,4 +1,4 @@
-﻿using ApiRaizes.Contracts.Services;
+using ApiRaizes.Contracts.Services;
 using ApiRaizes.DTO;
 using ApiRaizes.Entity;
 using ApiRaizes.Response;

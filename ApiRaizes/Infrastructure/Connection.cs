@@ -7,7 +7,7 @@ namespace ApiRaizes.Infrastructure
     public class Connection : IConnection
     {
 
-        protected string connectionString = "Server=localhost;Database=Raizes;User=root;Password=Root@123";
+        protected string connectionString = "Server=localhost;Database=Raizes;User=root;Password=1234";
         public MySqlConnection GetConnection()
         {
             return new MySqlConnection(connectionString);

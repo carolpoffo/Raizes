@@ -100,6 +100,21 @@
         visibility: visible;
       }
     }
+    
+    /* Estilo para visualização de PDF */
+    .pdf-container {
+      width: 100%;
+      height: 70vh;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .pdf-viewer {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen overflow-x-hidden">
@@ -149,14 +164,14 @@
               </thead>
               <tbody>
                 <tr class="hover:bg-gray-50 transition">
-                  <td class="py-3 px-4">12/04/2024</td>
+                  <td class="py-3 px-4">12/04/2025</td>
                   <td class="py-3 px-4">Financeiro</td>
                   <td class="py-3 px-4">Relatório mensal de receitas e despesas.</td>
                   <td class="py-3 px-4">João Silva</td>
                   <td class="py-3 px-4">
                     <div class="flex gap-2 items-center">
-                      <button class="bg-[#245937] text-white px-3 py-1 rounded hover:bg-green-800 transition text-xs whitespace-nowrap">Ver</button>
-                      <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition text-xs whitespace-nowrap">Baixar</button>
+                      <button class="bg-[#245937] text-white px-3 py-1 rounded hover:bg-green-800 transition text-xs whitespace-nowrap ver-btn" data-id="financeiro">Ver</button>
+                      <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition text-xs whitespace-nowrap baixar-btn" data-id="financeiro">Baixar</button>
                       <button class="p-1 text-red-500 rounded hover:bg-red-100 transition delete-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -166,14 +181,14 @@
                   </td>
                 </tr>
                 <tr class="hover:bg-gray-50 transition">
-                  <td class="py-3 px-4">10/04/2024</td>
+                  <td class="py-3 px-4">10/04/2025</td>
                   <td class="py-3 px-4">Vendas</td>
                   <td class="py-3 px-4">Relatório de vendas do primeiro trimestre.</td>
                   <td class="py-3 px-4">Maria Santos</td>
                   <td class="py-3 px-4">
                     <div class="flex gap-2 items-center">
-                      <button class="bg-[#245937] text-white px-3 py-1 rounded hover:bg-green-800 transition text-xs whitespace-nowrap">Ver</button>
-                      <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition text-xs whitespace-nowrap">Baixar</button>
+                      <button class="bg-[#245937] text-white px-3 py-1 rounded hover:bg-green-800 transition text-xs whitespace-nowrap ver-btn" data-id="vendas">Ver</button>
+                      <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition text-xs whitespace-nowrap baixar-btn" data-id="vendas">Baixar</button>
                       <button class="p-1 text-red-500 rounded hover:bg-red-100 transition delete-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -183,14 +198,14 @@
                   </td>
                 </tr>
                 <tr class="hover:bg-gray-50 transition">
-                  <td class="py-3 px-4">08/04/2024</td>
+                  <td class="py-3 px-4">08/04/2025</td>
                   <td class="py-3 px-4">Estoque</td>
                   <td class="py-3 px-4">Relatório de controle de estoque mensal.</td>
                   <td class="py-3 px-4">Pedro Costa</td>
                   <td class="py-3 px-4">
                     <div class="flex gap-2 items-center">
-                      <button class="bg-[#245937] text-white px-3 py-1 rounded hover:bg-green-800 transition text-xs whitespace-nowrap">Ver</button>
-                      <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition text-xs whitespace-nowrap">Baixar</button>
+                      <button class="bg-[#245937] text-white px-3 py-1 rounded hover:bg-green-800 transition text-xs whitespace-nowrap ver-btn" data-id="estoque">Ver</button>
+                      <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition text-xs whitespace-nowrap baixar-btn" data-id="estoque">Baixar</button>
                       <button class="p-1 text-red-500 rounded hover:bg-red-100 transition delete-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -211,6 +226,23 @@
   <div id="undo-notification" class="fixed bottom-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg flex items-center hidden">
     <span>Relatório apagado.</span>
     <button id="undo-btn" class="ml-4 font-bold text-green-400 hover:text-green-300">Desfazer</button>
+  </div>
+
+  <!-- Modal para Visualizar Relatório -->
+  <div id="visualizar-relatorio-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-10 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Visualizar Relatório</h3>
+        <button id="fechar-visualizar-modal" class="text-gray-400 hover:text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="conteudo-relatorio" class="mt-4">
+        <!-- Conteúdo do relatório será inserido aqui -->
+      </div>
+    </div>
   </div>
 
   <!-- Modal para Novo Relatório -->
@@ -237,6 +269,256 @@
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Dados dos relatórios com conteúdo dos PDFs fornecidos
+      const relatorios = {
+        'financeiro': {
+          tipo: 'Financeiro',
+          data: '12/04/2025',
+          titulo: 'Relatório mensal de receitas e despesas',
+          descricao: 'Relatório mensal de receitas e despesas.',
+          responsavel: 'João Silva',
+          conteudo: `
+            <div class="pdf-container">
+              <iframe class="pdf-viewer" src="data:application/pdf;base64,${btoa(unescape(encodeURIComponent(`
+                # Receitas
+
+                | Data    | Serviço    | Quant   | Preço Unitário (R$) | Total (R$) | Observações |
+                |---------|------------|---------|---------------------|------------|-------------|
+                | 05/08    | Venda de milho    | 300 kg    | 2,50    | 750,00    | Feira local    |
+                | 12/08    | Venda de leite    | 450 L    | 2,10    | 945,00    | Cooperativa    |
+                | 20/08    | Venda de hortaliças    | 120 maços    | 3,00    | 360,00    | Mercado municipal    |
+                | 25/08    | Venda de ovos    | 30 dúzias    | 12,00    | 360,00    | Consumidor direto    |
+
+                **TOTAL**  
+                **2.415,00**
+
+                # Despesas
+
+                | Data    | Categoria    | Descrição    | Valor (R$) | Observações |
+                |---------|--------------|--------------|------------|-------------|
+                | 03/08    | Insumos    | Compra de sementes de milho    | 350,00    | Cooperativa agrícola    |
+                | 07/08    | Alimentação animal    | Ração para vacas    | 480,00    | Loja agropecuária    |
+                | 10/08    | Manutenção    | Conserto de trator    | 750,00    | Oficina local    |
+                | 15/08    | Energia elétrica    | Conta de luz    | 320,00    | Referente ao mês anterior    |
+                | 18/08    | Transporte    | Frete para entrega de hortaliças    | 200,00    | Caminhoneiro local    |
+
+                **TOTAL**  
+                **2.100,00**
+
+                # Resultado do Mês
+
+                - **Receitas totais:** R$ 2.415,00  
+                - **Despesas totais:** R$ 2.100,00
+                - **Saldo líquido:** R$ 315,00
+
+                # Observações Gerais
+
+                - Boa produtividade de milho neste mês.
+                - Houve gasto extra com conserto de trator.
+                - Previsão de aumento na produção de leite para o próximo mês.
+              `)))}"></iframe>
+            </div>
+            <div class="mt-4 flex justify-center gap-4">
+              <button onclick="baixarRelatorio('financeiro')" class="bg-[#245937] text-white px-4 py-2 rounded hover:bg-green-800 transition">
+                Baixar Relatório
+              </button>
+              <button onclick="fecharVisualizarModal()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+                Fechar
+              </button>
+            </div>
+          `
+        },
+        'vendas': {
+          tipo: 'Vendas',
+          data: '10/04/2025',
+          titulo: 'Relatório de vendas do primeiro trimestre',
+          descricao: 'Relatório de vendas do primeiro trimestre.',
+          responsavel: 'Maria Santos',
+          conteudo: `
+            <div class="pdf-container">
+              <iframe class="pdf-viewer" src="data:application/pdf;base64,${btoa(unescape(encodeURIComponent(`
+                # Relatório de Vendas – 1º Trimestre
+
+                **Período:** Janeiro a Março / 2025
+
+                ## Vendas por Mês
+
+                ### Janeiro
+
+                | Produto    | Quant   | Preço Médio (R$) | Total (R$) | Observações |
+                |------------|---------|------------------|------------|-------------|
+                | Milho    | 250 kg    | 2,50    | 625,00    | Venda em feira local    |
+                | Leite    | 400 L    | 2,10    | 840,00    | Cooperativa    |
+                | Hortaliças    | 100 maços | 3,00    | 300,00    | Mercado municipal    |
+                | Ovos    | 25 dúzias | 12,00    | 300,00    | Consumidor direto    |
+
+                **TOTAL JANEIRO** **2.065,00**
+
+                ### Fevereiro
+
+                | Produto    | Quant   | Preço Médio (R$) | Total (R$) | Observações |
+                |------------|---------|------------------|------------|-------------|
+                | Milho    | 280 kg    | 2,50    | 700,00    | Feira local    |
+                | Leite    | 420 L    | 2,20    | 924,00    | Cooperativa    |
+                | Hortaliças    | 110 maços | 3,10    | 341,00    | Mercado municipal    |
+                | Ovos    | 28 dúzias | 12,00    | 336,00    | Consumidor direto    |
+
+                **TOTAL FEVEREIRO** **2.301,00**
+
+                ### Março
+
+                | Produto    | Quantidade | Preço Médio (R$) | Total (R$) | Observações |
+                |------------|------------|------------------|------------|-------------|
+                | Milho    | 320 kg    | 2,60    | 832,00    | Feira local    |
+                | Leite    | 450 L   | 2,20    | 990,00  | Cooperativa    |
+                | Hortaliças    | 115 maços | 3,20    | 368,00  | Mercado municipal    |
+                | Ovos    | 30 dúzias | 12,00    | 360,00  | Consumidor direto    |
+                | **TOTAL MARÇO**    |    |    | **2.550,00**    |    |
+
+                # Consolidado do Trimestre
+
+                | Produto    | Quantidade Total | Receita Total (R$) |
+                |------------|------------------|-------------------|
+                | Milho    | 850 kg    | 2.157,00    |
+                | Leite    | 1.270 L    | 2.754,00    |
+                | Hortaliças    | 325 maços | 1.009,00    |
+                | Ovos    | 83 dúzias | 996,00    |
+                | **TOTAL TRIMESTRE**    |    | **6.916,00**    |
+              `)))}"></iframe>
+            </div>
+            <div class="mt-4 flex justify-center gap-4">
+              <button onclick="baixarRelatorio('vendas')" class="bg-[#245937] text-white px-4 py-2 rounded hover:bg-green-800 transition">
+                Baixar Relatório
+              </button>
+              <button onclick="fecharVisualizarModal()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+                Fechar
+              </button>
+            </div>
+          `
+        },
+        'estoque': {
+          tipo: 'Estoque',
+          data: '08/04/2025',
+          titulo: 'Relatório de controle de estoque mensal',
+          descricao: 'Relatório de controle de estoque mensal.',
+          responsavel: 'Pedro Costa',
+          conteudo: `
+            <div class="pdf-container">
+              <iframe class="pdf-viewer" src="data:application/pdf;base64,${btoa(unescape(encodeURIComponent(`
+                # Relatório de Controle de Estoque
+
+                ## Estoque por Produto
+
+                | Produto    | Estoque Inicial | Entrada s | Saída s | Estoque Final | Observações |
+                |------------|-----------------|-----------|---------|---------------|-------------|
+                | Milho (kg)    | 500    | 300    | 250    | 550    | Colheita parcial em 10/05    |
+                | Leite (L)    | 0    | 1.200    | 1.150    | 50    | Pequeno excedente mantido em tanque    |
+                | Hortaliças (maços)    | 50    | 300    | 320    | 30    | Perdas por pragas em 15/05    |
+                | Ovos (dúzias)    | 20    | 90    | 100    | 10    | Boa saída em feira    |
+                | Ração Animal (kg)    | 200    | 500    | 600    | 100    | Reposição prevista p/ próximo mês    |
+
+                ## Resumo do Mês
+
+                - **Produto com maior saída:** Leite (1.150 L)
+                - **Produto com maior entrada:** Ração Animal (500 kg)
+                - **Perdas registradas:** Hortaliças (aprox. 10% da produção por pragas)
+                - **Saldo geral:** Estoque equilibrado, mas atenção à ração e hortaliças.
+              `)))}"></iframe>
+            </div>
+            <div class="mt-4 flex justify-center gap-4">
+              <button onclick="baixarRelatorio('estoque')" class="bg-[#245937] text-white px-4 py-2 rounded hover:bg-green-800 transition">
+                Baixar Relatório
+              </button>
+              <button onclick="fecharVisualizarModal()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">
+                Fechar
+              </button>
+            </div>
+          `
+        }
+      };
+
+      // Função para visualizar relatório
+      function visualizarRelatorio(relatorioId) {
+        const relatorio = relatorios[relatorioId];
+        if (!relatorio) return;
+
+        const modal = document.getElementById('visualizar-relatorio-modal');
+        const conteudo = document.getElementById('conteudo-relatorio');
+        
+        conteudo.innerHTML = `
+          <div class="text-center">
+            <h4 class="text-xl font-semibold mb-4">${relatorio.titulo} - ${relatorio.data}</h4>
+            ${relatorio.conteudo}
+          </div>
+        `;
+        
+        modal.classList.remove('hidden');
+      }
+
+      // Função para baixar relatório
+      function baixarRelatorio(relatorioId) {
+        const relatorio = relatorios[relatorioId];
+        if (!relatorio) return;
+
+        // Criar um link temporário para download
+        const link = document.createElement('a');
+        const blob = new Blob([relatorio.conteudo], { type: 'application/pdf' });
+        link.href = URL.createObjectURL(blob);
+        link.download = `relatorio-${relatorioId}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Mostrar notificação de download
+        mostrarNotificacao(`Download iniciado: relatorio-${relatorioId}.pdf`);
+      }
+
+      // Função para mostrar notificação
+      function mostrarNotificacao(mensagem) {
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-5 left-5 bg-green-600 text-white py-2 px-4 rounded-lg shadow-lg z-50';
+        notification.textContent = mensagem;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
+
+      // Função para fechar modal de visualização
+      window.fecharVisualizarModal = function() {
+        document.getElementById('visualizar-relatorio-modal').classList.add('hidden');
+      };
+
+      // Event listeners para os botões da tabela
+      document.querySelectorAll('.ver-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const relatorioId = btn.getAttribute('data-id');
+          visualizarRelatorio(relatorioId);
+        });
+      });
+      
+      document.querySelectorAll('.baixar-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const relatorioId = btn.getAttribute('data-id');
+          baixarRelatorio(relatorioId);
+        });
+      });
+
+      // Event listener para fechar modal de visualização
+      document.getElementById('fechar-visualizar-modal').addEventListener('click', fecharVisualizarModal);
+
+      // Fechar modal clicando fora dele
+      document.getElementById('visualizar-relatorio-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          fecharVisualizarModal();
+        }
+      });
+    });
+  </script>
 
   <script src="scripts/api.js"></script>
   <script src="scripts/sidebar.js"></script>
