@@ -144,8 +144,7 @@ async function ProxColheitas() {
     const dataAlvo = new Date();
     dataAlvo.setDate(hoje.getDate() + 30);
 
-    // Filtrar colheitas que batem com a data alvo
-    // Filtrar colheitas com data até 30 dias à frente
+   
     const proxColheitas = data.data.filter(item => {
     const dataColheita = new Date(item.dataColheita);
     return dataColheita >= hoje && dataColheita <= dataAlvo;
@@ -210,7 +209,6 @@ async function calcularTamanhoDisponivel() {
 // Variável global para armazenar plantios ativos
 let plantiosAtivos = [];
 
-// Função para listar plantios ativos e espécies
 async function listarPlantio() {
     const token = localStorage.getItem('token');
 
@@ -226,6 +224,17 @@ async function listarPlantio() {
         if (!plantResponse.ok) throw new Error('Erro ao carregar plantios');
         const plantData = await plantResponse.json();
 
+        // Buscar propriedades
+        const propertyResponse = await fetch('https://localhost:7027/Property', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : ''
+            }
+        });
+
+        if (!plantResponse.ok) throw new Error('Erro ao carregar propriedades');
+        const propertyData = await propertyResponse.json();
+        
         // Buscar espécies
         let especieData = { data: [] };
         try {
@@ -242,21 +251,25 @@ async function listarPlantio() {
         } catch (espError) {
             console.warn('Não foi possível carregar espécies. Usando nomes padrão.', espError);
         }
-        console.log(especieData)
-        // Filtrar plantios ativos e associar a espécie
-        const plantiosAtivos = (plantData.data || [])
-    .filter(p => p.ativa === true)
-    .map(p => {
-        const especie = especieData.data.find(e => e.Id === p.especieId);
-        return {
-            ...p,
-            especieNome: especie ? especie.nomeComum : 'Espécie',
-            especieVariedade: especieData ? especieData.variedade : ''
-        };
-    });
-        console.log(plantiosAtivos);
 
-        // Renderizar os plantios
+        plantData.dataCompra = new Date(plantData.dataCompra).toLocaleDateString("pt-BR", {timeZone: "UTC"
+        });
+
+        // Filtrar plantios ativos e associar a espécie e propriedade
+        const plantiosAtivos = (plantData.data || [])
+            .filter(p => p.ativa === true)
+            .map(p => {
+                const especie = especieData.data.find(e => e.id === p.especieId);
+                const propriedade = propertyData.data.find(prop => prop.id === p.propriedadeId);
+
+                return {
+                    ...p,
+                    especieNome: especie ? especie.nomeComum : 'Espécie',
+                    especieVariedade: especie ? especie.variedade : '',
+                    propriedadeNome: propriedade ? propriedade.nome : 'Propriedade'
+                };
+            });
+        // Renderizar no front
         renderizarPlantio(plantiosAtivos);
 
     } catch (error) {
@@ -264,20 +277,21 @@ async function listarPlantio() {
     }
 }
 
+function renderizarPlantio(plantiosAtivos) {
+    const container = document.getElementById('plant-container');
+    if (!container) {
+        console.error("Container #plant-container não encontrado no HTML");
+        return;
+    }
 
-// Função para renderizar os plantios no grid
-function renderizarPlantio() {
-    const container = document.querySelector('.grid');
-    if (!container) return;
-
-    container.innerHTML = ''; // limpa o grid antes de renderizar
+    container.innerHTML = '';
 
     plantiosAtivos.forEach(plantio => {
-        const dataInicio = new Date(plantio.DataInicio).toLocaleDateString('pt-BR');
-        const dataFim = new Date(plantio.DataFim).toLocaleDateString('pt-BR');
+        const dataInicio = new Date(plantio.dataInicio).toLocaleDateString('pt-BR');
+        const dataFim = new Date(plantio.dataFim).toLocaleDateString('pt-BR');
 
         const card = document.createElement('div');
-        card.id = "listarCultivos";
+        card.className = "bg-gradient-to-br from-white to-gray-50 rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-l-4 border-green-light";
 
         card.innerHTML = `
             <div class="flex items-center justify-between mb-4">
@@ -288,19 +302,19 @@ function renderizarPlantio() {
                 </svg>
               </button>
             </div>
-            <h3 class="font-bold text-gray-800 mb-4 text-lg">${plantio.especieNome} - ${plantio.especieVariedade}</h3>
+            <h3 class="font-bold text-gray-800 mb-4 text-lg">${plantio.especieNome} - ${plantio.especieVariedade || ''}</h3>
             <div class="space-y-3 text-sm">
               <div class="flex justify-between items-center">
                 <span class="text-gray-600">Propriedade:</span>
-                <span class="font-semibold text-gray-800">${plantio.PropriedadeId}</span>
+                <span class="font-semibold text-gray-800">${plantio.propriedadeNome}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-gray-600">Área:</span>
-                <span class="font-semibold text-gray-800">${plantio.AreaPlantada} ha</span>
+                <span class="font-semibold text-gray-800">${plantio.areaPlantada} ha</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-gray-600">Mudas:</span>
-                <span class="font-semibold text-gray-800">${plantio.Mudas}</span>
+                <span class="font-semibold text-gray-800">${plantio.mudas}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-gray-600">Início:</span>
@@ -313,18 +327,83 @@ function renderizarPlantio() {
             </div>
             <div class="mt-5 pt-4 border-t border-gray-200">
               <div class="flex gap-2">
-                <button class="flex-1 bg-green-dark text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-medium transition-all duration-200 shadow-sm hover:shadow-md">
+                <button data-id="${plantio.id}" class="flex-1 bg-green-dark text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-green-medium transition-all duration-200 shadow-sm hover:shadow-md">
                   Concluir
-                </button>
-                <button class="flex-1 bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-all duration-200">
-                  Excluir
                 </button>
               </div>
             </div>
         `;
+       
+
+
         container.appendChild(card);
     });
+            const botoesConcluir = container.querySelectorAll('button[data-id]');
+        botoesConcluir.forEach(botao => {
+            botao.addEventListener('click', () => {
+                const idCultivo = botao.getAttribute('data-id');
+                concluirCultivo(idCultivo);
+            });
+        });
 }
+// Função para excluir evento pelo ID
+// Função para concluir um cultivo
+// Função para concluir um cultivo
+async function concluirCultivo(id) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error("Token de autenticação não encontrado.");
+        alert("Sessão expirada. Faça login novamente.");
+        return;
+    }
+
+    try {
+        // 1. Fazer um GET para buscar os dados completos do plantio
+        const getResponse = await fetch(`https://localhost:7027/Planting/${id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!getResponse.ok) {
+            throw new Error(`Erro ao buscar dados do plantio: ${getResponse.status}`);
+        }
+
+        const plantioExistente = await getResponse.json();
+
+        // 2. Criar o objeto de atualização, usando os dados existentes e alterando 'Ativa'
+        //    GARANTINDO QUE AS PROPRIEDADES TENHAM NOMES EXATOS COMO A API ESPERA
+        const plantioAtualizado = {
+            ...plantioExistente,
+            Ativa: false 
+        };
+
+        // 3. Fazer o PUT com o objeto completo e atualizado
+        const putResponse = await fetch(`https://localhost:7027/Planting/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(plantioAtualizado)
+        });
+
+        if (!putResponse.ok) {
+            // Adicione a resposta do servidor ao erro para debug
+            const errorText = await putResponse.text();
+            throw new Error(`Erro ao atualizar plantio: ${putResponse.status} - ${errorText}`);
+        }
+
+        console.log(`Cultivo ${id} concluído com sucesso.`);
+        listarPlantio(); 
+
+    } catch (error) {
+        console.error("Erro ao concluir plantio:", error);
+        alert('Erro ao concluir plantio.');
+    }
+}
+
 
 // Executa ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {

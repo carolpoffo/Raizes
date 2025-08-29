@@ -1,4 +1,4 @@
-async function receita() {
+export async function receita() {
     const token = localStorage.getItem('token');
 
     try {
@@ -28,7 +28,7 @@ async function receita() {
         console.error('Erro ao carregar vendas:', error);
     }
 }
-async function receitaMes() {
+export async function receitaMes() {
     const token = localStorage.getItem('token');
 
     try {
@@ -69,10 +69,4 @@ async function receitaMes() {
     }
 }
 
-receitaMes();
 
-
-
-
-receita();
-receitaMes();

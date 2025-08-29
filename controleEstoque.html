@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,25 +22,132 @@
   </script>
 
 </head>
+
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen overflow-x-hidden">
- 
+
   <div class="flex min-h-screen">
-  
     <!-- Sidebar -->
     <div id="sidebar-container"></div>
-    
+
+    <!-- Modal para Novo Equipamento -->
+    <div id="modalEquipamento"
+      class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div class="bg-white p-8 rounded-2xl w-full max-w-2xl shadow-2xl transform transition-all duration-300">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">Novo Equipamento</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 ">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Nome</label>
+              <input id="nome"
+                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all"
+                placeholder="Digite o nome do equipamento" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+              <input id="tipo"
+                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all"
+                placeholder="Digite o tipo do Equipamento" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
+              <textarea id="descricao"
+                class="w-full border border-gray-300 rounded-lg p-3 h-24 resize-none focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all"
+                placeholder="Digite uma descrição para o equipamento"></textarea>
+            </div>
+            <div>
+              <label for="selectFornecedor" class="block text-gray-700 text-sm font-semibold mb-2">Fornecedor</label>
+              <select id="selectFornecedor"
+                class="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-light focus:border-transparent">
+                <option value="">Selecione o Fornecedor</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Preço do Equipamento</label>
+              <input id="precoEquipamento"
+                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all"
+                placeholder="Preço do Equipamento" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Data de Compra</label>
+              <input id="dataCompra"
+                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all"
+                placeholder="Data de Compra" />
+            </div>
+          </div>
+          <div id="messageEquipamento" class="text-center text-white bg-green-medium rounded-lg p-2 hidden"></div>
+        </div>
+        <div class="flex justify-end space-x-3 mt-8">
+          <button onclick="fecharmodalEquipamento()"
+            class="px-6 py-3 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium">Cancelar</button>
+          <button onclick="salvarEquipamento()"
+            class="px-6 py-3 bg-gradient-to-r from-green-dark to-green-medium text-white rounded-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 font-medium">Salvar
+            Equipamento</button>
+        </div>
+      </div>
+
+
+
+    </div>
+    <!-- Modal para Novo Insumo -->
+    <div id="modalInsumo"
+      class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div class="bg-white p-8 rounded-2xl w-full max-w-2xl shadow-2xl transform transition-all duration-300">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">Novo Insumo</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 ">
+          <div class="space-y-4">
+
+            <div>
+              <label for="selectPropriedade" class="block text-gray-700 text-sm font-semibold mb-2">Propriedade</label>
+              <select id="selectPropriedade"
+                class="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-light focus:border-transparent">
+                <option value="">Selecione a Propriedade</option>
+              </select>
+            </div>
+            <div>
+              <label for="selectInsumo" class="block text-gray-700 text-sm font-semibold mb-2">Insumo</label>
+              <select id="selectInsumo"
+                class="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-green-light focus:border-transparent">
+                <option value="">Selecione o Insumo</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Quantidade</label>
+              <textarea id="quantidade"
+                class="w-full border border-gray-300 rounded-lg p-3 h-24 resize-none focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all"
+                placeholder="Digite a quantidade que irá entrar em estoque"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Preço unitario do Insumo</label>
+              <input id="precoUNInsumo"
+                class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-medium focus:border-transparent transition-all"
+                placeholder="Preço unitário do Insumo" />
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end space-x-3 mt-8">
+          <button onclick="fecharmodalInsumo()"
+            class="px-6 py-3 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium">Cancelar</button>
+          <button onclick="salvarInsumo()"
+            class="px-6 py-3 bg-gradient-to-r from-green-dark to-green-medium text-white rounded-lg hover:shadow-lg transform hover:scale-105 transition-all duration-300 font-medium">Salvar
+            Insumo</button>
+        </div>
+      </div>
+
+
+
+    </div>
     <!-- Conteúdo principal -->
     <div class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
-      <!-- Mobile Menu Button -->
-      <button id="mobile-menu-btn" class="md:hidden mb-6 p-3 bg-gradient-to-r from-green-dark to-green-medium text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-        </svg>
-      </button>
-
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-dark to-green-medium bg-clip-text text-transparent">
+          <h1
+            class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-dark to-green-medium bg-clip-text text-transparent">
             Gestão de Estoque
           </h1>
         </div>
@@ -48,423 +156,171 @@
       <!-- Cards de métricas -->
       <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         <!-- Total de Equipamentos -->
-        <div class="bg-gradient-to-br from-white to-blue-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-100">
+        <div
+          class="bg-white rounded-2xl p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100">
           <div class="flex items-center justify-between mb-4">
             <span class="text-gray-600 text-sm font-medium">Total Equipamentos</span>
-            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div
+              class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
               <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
             </div>
           </div>
           <div class="space-y-2">
-            <div class="text-3xl font-bold text-gray-800">47</div>
-            <div class="flex items-center text-sm">
-              <span class="text-green-600 font-medium">+3 este mês</span>
-            </div>
+            <div id="totalEquipamento" class="text-3xl font-bold text-gray-800">Carregando..</div>
           </div>
         </div>
-                        
+
         <!-- Valor Total Equipamentos -->
-        <div class="bg-gradient-to-br from-white to-green-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
+        <div
+          class="bg-white rounded-2xl p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100">
           <div class="flex items-center justify-between mb-4">
             <span class="text-gray-600 text-sm font-medium">Valor Equipamentos</span>
-            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div
+              class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
               <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M7 14l5-5 5 5z"/>
+                <path d="M7 14l5-5 5 5z" />
               </svg>
             </div>
           </div>
           <div class="space-y-2">
-            <div class="text-3xl font-bold text-gray-800">R$ 285.400</div>
+            <div id="valorEquipamentos" class="text-3xl font-bold text-gray-800">Carregando..</div>
             <div class="flex items-center text-sm">
               <span class="text-green-600 font-medium">Patrimônio total</span>
             </div>
           </div>
         </div>
-                        
+
         <!-- Tipos de Insumos -->
-        <div class="bg-gradient-to-br from-white to-purple-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-100">
+        <div
+          class="bg-white rounded-2xl p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100">
           <div class="flex items-center justify-between mb-4">
-            <span class="text-gray-600 text-sm font-medium">Tipos de Insumos</span>
-            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+            <span class="text-gray-600 text-sm font-medium">Insumos</span>
+            <div
+              class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
               <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                <path
+                  d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" />
               </svg>
             </div>
           </div>
           <div class="space-y-2">
-            <div class="text-3xl font-bold text-gray-800">23</div>
+            <div id="insumos" class="text-3xl font-bold text-gray-800">Carregando..</div>
             <div class="flex items-center text-sm">
-              <span class="text-purple-600 font-medium">Categorias ativas</span>
+              <span class="text-purple-600 font-medium">Insumos ativos</span>
             </div>
           </div>
         </div>
 
         <!-- Valor Total Estoque -->
-        <div class="bg-gradient-to-br from-white to-orange-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-orange-100">
+        <div
+          class="bg-white rounded-2xl p-6 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100">
           <div class="flex items-center justify-between mb-4">
-            <span class="text-gray-600 text-sm font-medium">Valor Estoque</span>
-            <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+            <span class="text-gray-600 text-sm font-medium">Valor de Insumos em Estoque</span>
+            <div
+              class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
               <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
               </svg>
             </div>
           </div>
           <div class="space-y-2">
-            <div class="text-3xl font-bold text-gray-800">R$ 45.680</div>
-            <div class="flex items-center text-sm">
-              <span class="text-orange-600 font-medium">Insumos disponíveis</span>
-            </div>
+            <div id="valorEstoque" class="text-3xl font-bold text-gray-800">Carregando..</div>
           </div>
         </div>
       </div>
-
-      <!-- Tabs Navigation -->
-      <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg mb-8 overflow-hidden border border-gray-100">
-        <div class="flex border-b border-gray-200 overflow-x-auto scrollbar-hide">
-          <button class="tab-button active flex-shrink-0 px-8 py-4 text-sm font-semibold text-gray-600 border-b-3 border-transparent hover:text-green-dark hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 transition-all duration-300 relative group" data-tab="equipamentos">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300">
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
-                </svg>
-              </div>
-              <div class="text-left">
-                <div class="font-bold text-gray-800">Equipamentos</div>
-              </div>
-            </div>
-            <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-          </button>
-          
-          <button class="tab-button flex-shrink-0 px-8 py-4 text-sm font-semibold text-gray-600 border-b-3 border-transparent hover:text-green-dark hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 transition-all duration-300 relative group" data-tab="estoque">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300">
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M4,6V18H11V6H4M20,18V6H18.76C19,6.54 18.95,7.07 18.95,7.13C18.88,7.8 18.41,8.5 18.24,8.75L15.91,11.3L19.23,11.28L19.24,12.5L14.04,12.47L14.04,11.47C14,11.47 17.05,8.24 17.2,7.95C17.34,7.67 17.91,6 16.5,6C15.27,6.05 15.41,7.3 15.41,7.3L14.5,7.32C14.5,7.32 14.35,5.55 16.5,5.5C18.61,5.44 18.95,7.16 18.95,7.16H20V18Z"/>
-                </svg>
-              </div>
-              <div class="text-left">
-                <div class="font-bold text-gray-800">Estoque de Insumos</div>
-
-              </div>
-            </div>
-            <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-          </button>
-        </div>
-      </div>
-
-      <!-- Tab Content: Equipamentos -->
-      <div id="equipamentos-tab" class="tab-content">
-        <!-- Novo Equipamento -->
-        <div class=" p-6  mb-8 ">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-s gap-4">
-            <div></div>
-            <button id="toggle-equipment-form" class="bg-gradient-to-r from-green-dark to-green-medium text-white px-6 py-3 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center gap-2">
+      <div class="p-6 mb-8">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-s gap-4">
+          <div></div>
+          <div class="flex items-center gap-4">
+            <button id="toggle-equipment-form" onclick="abrirmodalEquipamento()"
+              class="bg-gradient-to-r from-green-dark to-green-medium text-white px-6 py-3 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center gap-2">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
               </svg>
               Adicionar Equipamento
             </button>
-          </div>
-        </div>
 
-        <!-- Lista de Equipamentos -->
-        <div class="mb-8">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-            <div>
-              <h2 class="text-xl font-bold text-gray-800">Equipamentos Cadastrados</h2>
-              <p class="text-gray-600 text-sm mt-1">47 equipamentos no total</p>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-3">
-              <input type="text" placeholder="Buscar equipamento..." class="px-4 py-2 border border-gray-300 rounded-xl text-sm bg-white shadow-sm">
-            </div>
-          </div>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Enhanced equipment cards with gradients and better styling -->
-            <!-- Exemplo de equipamento -->
-            <div class="bg-gradient-to-br from-white to-blue-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
-              <div class="flex items-center justify-between mb-4">
-                <span class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">Trator</span>
-                <button class="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                  </svg>
-                </button>
-              </div>
-              <h3 class="font-bold text-gray-800 mb-3 text-lg">Trator John Deere 5075E</h3>
-              <div class="space-y-3 text-sm text-gray-600">
-                <div class="flex justify-between items-center">
-                  <span>Fornecedor:</span>
-                  <span class="font-semibold text-gray-800">Agro Máquinas</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Valor:</span>
-                  <span class="font-semibold text-green-600">R$ 85.000,00</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Compra:</span>
-                  <span class="font-semibold text-gray-800">15/03/2024</span>
-                </div>
-              </div>
-              <div class="mt-6 pt-4 border-t border-gray-200">
-                <div class="flex gap-3">
-                  <button class="flex-1 bg-gradient-to-r from-green-dark to-green-medium text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300">
-                    Editar
-                  </button>
-                  <button class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-200 transition-all duration-300">
-                    Detalhes
-                  </button>
-                </div>
-              </div>
-            </div>
-        </div>
-      </div>
-
-      <!-- Tab Content: Estoque de Insumos -->
-      <div id="estoque-tab" class="tab-content hidden">
-        <!-- Nova Movimentação de Estoque -->
-        <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg mb-8 border border-gray-100">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-            <div>
-              <h2 class="text-xl font-bold text-gray-800">Movimentação de Estoque</h2>
-              <p class="text-gray-600 text-sm mt-1">Registre entradas e saídas de insumos</p>
-            </div>
-            <button id="toggle-stock-form" class="bg-gradient-to-r from-green-dark to-green-medium text-white px-6 py-3 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center gap-2">
+            <button id="toggle-insumo-form" onclick="abrirmodalInsumo()"
+              class="bg-gradient-to-r from-green-dark to-green-medium text-white px-6 py-3 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300 flex items-center gap-2">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
               </svg>
-              Nova Movimentação
+              Adicionar Insumo
             </button>
           </div>
-          
-        </div>
-
-        <!-- Lista de Estoque -->
-        <div class="mb-8">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-            <div>
-              <h2 class="text-xl font-bold text-gray-800">Estoque Atual</h2>
-              <p class="text-gray-600 text-sm mt-1">23 tipos de insumos disponíveis</p>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-3">
-              <input type="text" placeholder="Buscar insumo..." class="px-4 py-2 border border-gray-300 rounded-xl text-sm bg-white shadow-sm">
-            </div>
-          </div>
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Enhanced stock cards with gradients and better styling -->
-            <!-- Exemplo de estoque -->
-            <div class="bg-gradient-to-br from-white to-green-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-green-500">
-              <div class="flex items-center justify-between mb-4">
-                <span class="bg-gradient-to-r from-green-100 to-green-200 text-green-800 px-3 py-1 rounded-full text-xs font-medium">Disponível</span>
-                <button class="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                  </svg>
-                </button>
-              </div>
-              <h3 class="font-bold text-gray-800 mb-3 text-lg">Fertilizante NPK 20-05-20</h3>
-              <div class="space-y-3 text-sm text-gray-600">
-                <div class="flex justify-between items-center">
-                  <span>Propriedade:</span>
-                  <span class="font-semibold text-gray-800">Norte</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Quantidade:</span>
-                  <span class="font-semibold text-green-600">250 kg</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Preço Unit.:</span>
-                  <span class="font-semibold text-gray-800">R$ 2,50/kg</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Última Mov.:</span>
-                  <span class="font-semibold text-gray-800">10/04/2024</span>
-                </div>
-              </div>
-              <div class="mt-6 pt-4 border-t border-gray-200">
-                <div class="flex gap-3">
-                  <button class="flex-1 bg-gradient-to-r from-green-dark to-green-medium text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300">
-                    Movimentar
-                  </button>
-                  <button class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-200 transition-all duration-300">
-                    Histórico
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Exemplo de estoque 2 -->
-            <div class="bg-gradient-to-br from-white to-red-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-red-500">
-              <div class="flex items-center justify-between mb-4">
-                <span class="bg-gradient-to-r from-red-100 to-red-200 text-red-800 px-3 py-1 rounded-full text-xs font-medium">Baixo</span>
-                <button class="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                  </svg>
-                </button>
-              </div>
-              <h3 class="font-bold text-gray-800 mb-3 text-lg">Sementes de Milho Híbrido</h3>
-              <div class="space-y-3 text-sm text-gray-600">
-                <div class="flex justify-between items-center">
-                  <span>Propriedade:</span>
-                  <span class="font-semibold text-gray-800">Central</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Quantidade:</span>
-                  <span class="font-semibold text-red-600">15 kg</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Preço Unit.:</span>
-                  <span class="font-semibold text-gray-800">R$ 45,00/kg</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Última Mov.:</span>
-                  <span class="font-semibold text-gray-800">05/04/2024</span>
-                </div>
-              </div>
-              <div class="mt-6 pt-4 border-t border-gray-200">
-                <div class="flex gap-3">
-                  <button class="flex-1 bg-gradient-to-r from-green-dark to-green-medium text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300">
-                    Movimentar
-                  </button>
-                  <button class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-200 transition-all duration-300">
-                    Histórico
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Added more example stock cards for better demonstration -->
-            <!-- Exemplo de estoque 3 -->
-            <div class="bg-gradient-to-br from-white to-blue-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
-              <div class="flex items-center justify-between mb-4">
-                <span class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">Disponível</span>
-                <button class="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                  </svg>
-                </button>
-              </div>
-              <h3 class="font-bold text-gray-800 mb-3 text-lg">Defensivo Agrícola</h3>
-              <div class="space-y-3 text-sm text-gray-600">
-                <div class="flex justify-between items-center">
-                  <span>Propriedade:</span>
-                  <span class="font-semibold text-gray-800">Sul</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Quantidade:</span>
-                  <span class="font-semibold text-blue-600">80 L</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Preço Unit.:</span>
-                  <span class="font-semibold text-gray-800">R$ 35,00/L</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Última Mov.:</span>
-                  <span class="font-semibold text-gray-800">18/04/2024</span>
-                </div>
-              </div>
-              <div class="mt-6 pt-4 border-t border-gray-200">
-                <div class="flex gap-3">
-                  <button class="flex-1 bg-gradient-to-r from-green-dark to-green-medium text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300">
-                    Movimentar
-                  </button>
-                  <button class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-200 transition-all duration-300">
-                    Histórico
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Exemplo de estoque 4 -->
-            <div class="bg-gradient-to-br from-white to-yellow-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-yellow-500">
-              <div class="flex items-center justify-between mb-4">
-                <span class="bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">Médio</span>
-                <button class="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                  </svg>
-                </button>
-              </div>
-              <h3 class="font-bold text-gray-800 mb-3 text-lg">Calcário Dolomítico</h3>
-              <div class="space-y-3 text-sm text-gray-600">
-                <div class="flex justify-between items-center">
-                  <span>Propriedade:</span>
-                  <span class="font-semibold text-gray-800">Norte</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Quantidade:</span>
-                  <span class="font-semibold text-yellow-600">500 kg</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Preço Unit.:</span>
-                  <span class="font-semibold text-gray-800">R$ 0,80/kg</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Última Mov.:</span>
-                  <span class="font-semibold text-gray-800">22/03/2024</span>
-                </div>
-              </div>
-              <div class="mt-6 pt-4 border-t border-gray-200">
-                <div class="flex gap-3">
-                  <button class="flex-1 bg-gradient-to-r from-green-dark to-green-medium text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300">
-                    Movimentar
-                  </button>
-                  <button class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-200 transition-all duration-300">
-                    Histórico
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
+
+      <div class="bg-white rounded-2xl p-6  border border-gray-100">
+        <div class="grid-cols-2">
+        </div>
+        <div id="equipamentos-tab" class="tab-content space-y-3 pr-2">
+          <div class="mb-8">
+            <div class="grid grid-cols-2 justify-items-center items-center mb-6">
+              <div>
+                <h2 id="equipamentos-tab-btn" class="text-xl font-bold text-gray-800 cursor-pointer ">Equipamentos</h2>
+                <div id="equipamentos-bar" class="w-full h-1 bg-green-medium transition-colors duration-300"></div>
+              </div>
+              <div>
+                <h2 id="insumos-tab-btn" class="text-xl font-bold text-gray-800 cursor-pointer">Insumos</h2>
+                <div id="insumos-bar" class="w-full h-1 bg-transparent bg-green-medium transition-colors duration-300">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="conteudo-lista"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto space-y-3 max-h-96 ">
+          </div>
+        </div>
+
+      </div>
     </div>
+
 
   </div>
 
   <script src="scripts/api.js"></script>
   <script src="scripts/sidebar.js"></script>
+  <script src="scripts/equipamento.js"></script>
+  <script src="scripts/insumo.js"></script>
   <script>
-    // Tab functionality
-    document.querySelectorAll('.tab-button').forEach(button => {
-      button.addEventListener('click', () => {
-        const tabName = button.dataset.tab;
-        
-        // Update active tab button
-        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        
-        // Show/hide tab content
-        document.querySelectorAll('.tab-content').forEach(content => {
-          content.classList.add('hidden');
-        });
-        document.getElementById(tabName + '-tab').classList.remove('hidden');
+    document.addEventListener('DOMContentLoaded', () => {
+      const equipamentosBtn = document.getElementById('equipamentos-tab-btn');
+      const insumosBtn = document.getElementById('insumos-tab-btn');
+      const equipamentosBar = document.getElementById('equipamentos-bar');
+      const insumosBar = document.getElementById('insumos-bar');
+
+      // Função para gerenciar a troca de abas
+      const handleTabChange = (activeBar, inactiveBar) => {
+        activeBar.classList.remove('bg-transparent');
+        activeBar.classList.add('green-medium');
+
+        inactiveBar.classList.remove('green-medium');
+        inactiveBar.classList.add('bg-transparent');
+      };
+
+      // Evento de clique para a aba de Equipamentos
+      equipamentosBtn.addEventListener('click', () => {
+        handleTabChange(equipamentosBar, insumosBar);
+        listarEquipamentos(); // <<< chama a função do JS
       });
-    });
 
-    // Form toggle functionality
-    document.getElementById('toggle-equipment-form').addEventListener('click', () => {
-      const form = document.getElementById('equipment-form');
-      form.classList.toggle('hidden');
-    });
+      // Evento de clique para a aba de Insumos
+      insumosBtn.addEventListener('click', () => {
+        handleTabChange(insumosBar, equipamentosBar);
+        listarInsumos(); // <<< chama a função do JS
+      });
 
-    document.getElementById('cancel-equipment-form').addEventListener('click', () => {
-      document.getElementById('equipment-form').classList.add('hidden');
-    });
-
-    document.getElementById('toggle-stock-form').addEventListener('click', () => {
-      const form = document.getElementById('stock-form');
-      form.classList.toggle('hidden');
-    });
-
-    document.getElementById('cancel-stock-form').addEventListener('click', () => {
-      document.getElementById('stock-form').classList.add('hidden');
+      // Estado inicial: a barra de equipamentos está ativa
+      handleTabChange(equipamentosBar, insumosBar);
+      listarEquipamentos(); // <<< carrega lista de equipamentos logo ao abrir
     });
   </script>
-
 </body>
+
 </html>

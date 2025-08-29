@@ -65,7 +65,7 @@ function renderizarTarefas() {
           <h3 class="p-2 font-semibold mb-2">${tarefa.titulo}</h3>
           <p class="text-lg opacity-90 py-8 break-words">${tarefa.descricao}</p>
           <button 
-            class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-green-light text-green-dark font-semibold px-3 py-1 rounded-md text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow hover:bg-green-light hover:text-white"
+            class="bg-green-medium  text-white px-6 py-3 rounded-xl text-sm font-medium hover:shadow-lg transform hover:scale-110 transition-all duration-300"
             data-id="${tarefa.id}" 
             data-titulo="${tarefa.titulo}" 
             data-descricao="${tarefa.descricao}"
@@ -103,7 +103,7 @@ function renderizarTarefas() {
 function listarAtividades() {
   const token = localStorage.getItem('token');
 
-  fetch('phtts://localhost:7027/Task', {
+  fetch('https://localhost:7027/Task', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
